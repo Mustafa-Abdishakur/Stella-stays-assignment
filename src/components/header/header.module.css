@@ -1,0 +1,25 @@
+header {
+    background-color:cadetblue;
+    padding:10px 15px;
+
+}
+
+.logoContainer {
+    display:flex;
+    flex-direction: column;
+    width:100px;
+}
+nav {
+    display:flex;
+    justify-content: space-between;
+}
+.navBtns button {
+    background: none;
+    color:#fff;
+    padding:10px 15px;
+    border-top-left-radius:25px;
+border-top-right-radius:25px;
+border-bottom-right-radius:25px;
+border-bottom-left-radius:25px;
+border: 1px solid #fff;
+}
