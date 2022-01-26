@@ -1,0 +1,279 @@
+.searchContainer{
+width: 1100px;
+/* height: 128px; */
+margin:auto;
+border-radius: 20px;
+border: 2px solid #FFFFFF;
+box-shadow: 0px 8px 16px 8px rgba(0, 0, 0, 0.03);
+background: #fff;
+display: flex;
+align-items: center;
+justify-content: space-around;
+/* padding:10px; */
+position:relative;
+top:-40px;
+font-family: 'Inter', sans-serif;
+height:90vh;
+}
+.cityContainer {
+    position:relative;
+    display: inline-block;
+}
+.cityContainer .cityDropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 170px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    /* color: #4b5154;
+    font-size: 17px;
+    font-weight: 500; */
+    border-radius:20px;
+    padding:5px;
+    left:-14px;
+}
+.cityDropdown p {
+    padding:10px;
+    border-radius: 5px;
+}
+.cityDropdown p:hover {
+    background-color:#e7e8e9;
+
+}
+/* .cityContainer:hover .cityDropdown{
+    display: block;
+  } */
+.cityContainer, .checkInContainer, .checkOutContainer{
+    border-bottom:2px solid transparent;
+} 
+.cityLabel{
+    font-size: 12px;
+    margin-bottom:0;
+}
+.citySelection {
+    color: #4b5154;
+    font-size: 17px;
+    font-weight: 500;
+    margin-top:10px;
+}
+.checkInContainer p:first-child, .checkOutContainer p:first-child {
+    font-size: 12px;
+    margin-bottom:0;
+}
+.checkInContainer p:nth-child(2), .checkOutContainer p:nth-child(2) {
+    color: #4b5154;
+    font-size: 17px;
+    font-weight: 500;
+    margin-top:10px;
+}
+.checkInContainer {
+    position:relative;
+}
+.checkInContainer .checkInDropdown{
+    position:absolute;
+    width:800px;
+  height:auto;  
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  left:-30px;
+  padding-top:10px;
+}
+.calenderContainer {
+    width:100%;
+}
+.calenderSelection {
+    width:160px;
+    border-radius: 20px;
+    /* background-color:#72A2AF; */
+    margin:auto;
+    display:flex;
+    justify-content: space-between;
+    border: 1px solid rgb(194, 194, 194);
+    margin-bottom:10px;
+}
+.calenderSelection button {
+    font-size:16px;
+    background-color: transparent;
+    border:none;
+    padding:10px 10px;
+    border-radius: 20px;
+    
+}
+.calenderSelection button:first-child {
+background: #75969f;
+}
+.calender {
+    width:45%;
+    /* background-color: #72A2AF; */
+    padding-bottom:20px;
+    font-family:'Gilroy'
+}
+.monthContainer {
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:5px;
+}
+.monthContainer img {
+    width:10px;
+    height:12px;
+}
+.monthContainer span {
+    font-weight:bold;
+}
+.daysContainer {
+    width:100%;
+
+}
+.daysContainer .dates {
+    display:flex;
+    justify-content: space-between;
+    width:85%;
+    margin:auto;
+}
+/*USE GRID-COLUMN-START FOR POSITION OF START AND END DATE OF A MONTH*/
+.daysContainer .days {
+    width:95%;
+    margin:auto;
+    display:grid;
+    grid-template-columns: repeat(7,1fr);
+    /* background-color: #72A2AF; */
+    justify-items:center;
+    font-size:13px;
+}
+.daysContainer .days span{
+    /* margin:3px; */
+    border-radius: 50%;
+    width: 23px;
+    height: 23px;
+    display: grid;
+    align-content: center;
+    text-align: center;
+    border:1px solid transparent;
+
+
+}
+.daysContainer .days span:hover{
+    border:1px solid #72A2AF;
+}
+
+
+.guestsContainer {
+    display:flex;
+    flex-direction: column;
+    /* background-color: turquoise; */
+}
+.guestsContainer p {
+    font-size: 12px;
+    /* margin-bottom:4px; */
+
+}
+.guestNumbers {
+    display:flex;
+    align-items: center;
+    position:relative;
+    top:-13px;
+    
+}
+.guestNumbers span {
+    margin-right:30px;
+}
+.guestBtns {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75px;
+    height: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 26px;
+    /* background-color: aquamarine; */
+    /* margin-top:-2px; */
+    /* margin-bottom:3px; */
+}
+.guestBtns button {
+    border:none;
+    border-radius: 32px;
+    /* border-radius: 26px; */
+    font-size: 20px;
+    height:100%;
+    width:50%;
+    background-color: transparent;
+    color:rgb(94, 93, 93);
+    font-size:25px;
+}
+.guestBtns button:hover {
+    cursor:pointer;
+    box-shadow:0 0 2px rgb(190, 190, 190);
+}
+.searchBtnContainer {
+    height: 65px;
+    width: 200px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #72A2AF 0%, #4A7889 100%);
+    display:grid;
+    align-content: center;
+}
+.searchBtnContainer button{
+    background: transparent;
+    border:none;
+    /* background: chartreuse; */
+    width:100%;
+    height:74px;
+    border-radius: 20px;
+    font-size: 20px;
+    color:#fff;
+    font-weight:200;
+}
+.searchBtnContainer img{
+ width:15px;
+ margin-right:5px;
+}
+.searchBtnContainer button:hover {
+    cursor:pointer;
+}
+.cityContainer:hover, .checkInContainer:hover, .checkOutContainer:hover {
+    cursor: pointer;
+    border-bottom:2px solid #4b5154;
+}
+.subnitDatesContainer {
+    border-top: 1px solid rgb(201, 200, 200);
+    padding:20px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.subnitDatesContainer button {
+    font-size:18px;
+    font-family: 'Gilroy';
+
+}
+.subnitDatesContainer button:first-child {
+    border:none;
+    background-color: #fff;
+    font-weight:500;
+}
+.subnitDatesContainer button:last-child {
+    background-color: #75969f;
+    border-radius: 20px;
+    color:#fff;
+    border:1px solid rgb(201, 200, 200);
+    font-weight:bold;
+    padding:10px 10px;
+}
+.calenders {
+    display: flex;
+    padding-left:10px;
+    padding-right:10px;
+    justify-content: space-around;
+}
+/* .calender2 {
+    width:45%;
+}
+.monthContainer2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;   
+}
+.monthContainer2 img{
+    width:10px;
+    height:12px;
+} */
