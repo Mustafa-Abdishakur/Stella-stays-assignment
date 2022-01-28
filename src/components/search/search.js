@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import classes from './search.module.css';
 import searchImg from '../../img/search.png';
 import leftArrow from '../../img/left-arrow.png';
 import rightArrow from '../../img/right-arrow.png';
-
+import close from '../../img/close.png';
 
 const monthsArr = [
     {
@@ -72,9 +72,21 @@ const Search = () => {
     const [displayCities, setDisplayCities] = useState(false);
     const [city, setCity] = useState('Select a city');
     const [monthLocation, setMonthLocation] = useState(0);
-    const [checkIn, setCheckIn] = useState('Add dates');
-
-
+    const [checkIn, setCheckIn] = useState(null);
+    const [checkOut, setCheckOut] = useState('');
+    const [previousMonthLocation, setPreviousMonthLocation] = useState(0);
+    const [previousDay, setPreviousDay] = useState(0);
+    const [displayDropdown, setdisplayDropdown] = useState(false);
+    const [guestNumbers, setGuestNumbers] = useState(0);
+    const [guestTile, setGuestTtle] = useState('Add guests');
+    const [displayComponent, setDisplayComponent] = useState(true);
+    const [color, setColor] = useState('');
+    const [backgroundColor, setBackgroundColor] = useState('');
+    const [color2, setColor2] = useState('');
+    const [backgroundColor2, setBackgroundColor2] = useState('');
+    const [style1, setStyle1] = useState('none');
+    const [style2, setStyle2] = useState('block');
+    let date;
     const displayList = () => {
         displayCities === true ? setDisplayCities(false) : setDisplayCities(true);
     }
@@ -95,12 +107,208 @@ const Search = () => {
         setMonthLocation(monthLocation - 1);
 
     }
-    const checkInHandler = (day) => {
-        setCheckIn(day + ' ' + monthsArr[monthLocation].month.substring(0, 3))
+    const dayClickHandler1 = (day) => {
+        if (checkIn === null) {
+            setPreviousMonthLocation(monthLocation);
+            setPreviousDay(day);
+            setCheckIn(day + ' ' + monthsArr[monthLocation].month.substring(0, 3));
+        } else {
+            if (previousMonthLocation > monthLocation) {
+                setCheckIn(day + ' ' + monthsArr[monthLocation].month.substring(0, 3));
+                setPreviousDay(day);
+            } else {
+                if (previousDay > day) {
+                    setCheckIn(day + ' ' + monthsArr[monthLocation].month.substring(0, 3));
+                    setPreviousDay(day);
+                } else {
+                    setCheckOut(day + ' ' + monthsArr[monthLocation].month.substring(0, 3));
+                    setPreviousDay(0);
+                }
+            }
+        }
+    }
+
+    const clearHandler = () => {
+        setCheckIn(null);
+        setCheckOut('');
+    }
+    const displayDropdownHandler = (e) => {
+        const val = e.target.dataset.viewTag;
+        if (val) {
+            if (val === 'parent') {
+                setdisplayDropdown(true);
+            } else if (val === 'close') {
+                setdisplayDropdown(false);
+                setCheckIn(null);
+                setCheckOut('');
+            } else if (val === 'apply') {
+                setdisplayDropdown(false);
+            }
+        }
+    }
+
+    const toggleComponentHandler = (e) => {
+        if (e.target.innerText === 'Calender') {
+            setColor('#fff');
+            setBackgroundColor('#75969f');
+            setColor2('');
+            setBackgroundColor2('');
+            setDisplayComponent(true);
+        } else if (e.target.innerText === 'Flexible') {
+            setColor2('#fff');
+            setBackgroundColor2('#75969f');
+            setColor('');
+            setBackgroundColor('');
+            setDisplayComponent(false);
+        }
+    }
+    const guestDecHandler = () => {
+        if (guestNumbers === 0 || guestNumbers === 1) {
+            return;
+        }
+        setGuestNumbers(guestNumbers - 1);
+        setGuestTtle(`${guestNumbers} guests`);
+    }
+    const guestIncHandler = () => {
+        setGuestNumbers(guestNumbers + 1);
+        setGuestTtle(`${guestNumbers} guests`);
+    }
+    if (checkIn === null) {
+        date = 'Add date';
+    } else {
+        date = checkIn + '-' + checkOut;
+    }
+    const dayClickHandler2 = (day) => {
+        const monthNum = monthLocation + 1;
+        if (checkIn === null) {
+            setPreviousMonthLocation(monthNum);
+            setCheckIn(day + ' ' + monthsArr[monthNum].month.substring(0, 3))
+        } else {
+            if (previousMonthLocation > monthLocation + 1) {
+                setCheckIn(day + ' ' + monthsArr[monthNum].month.substring(0, 3))
+            } else {
+                setCheckOut(day + ' ' + monthsArr[monthNum].month.substring(0, 3))
+            }
+
+        }
     }
     const dates = Array.from(Array(monthsArr[monthLocation].endDay).keys());
-    const test1 = Array.from(Array(31).keys());
-    // console.log(checkIn)
+    const dates2 = Array.from(Array(monthsArr[monthLocation + 1].endDay).keys());
+
+    window.addEventListener('resize', (e) => {
+        if (e.target.innerWidth <= 700) {
+            if(style1 === 'none') {
+                setStyle1('block');
+                setStyle2('none');
+            }
+        }else if (e.target.innerWidth > 700) {
+            if(style1 === 'block') {
+                setStyle1('none');
+                setStyle2('block');
+
+            }        
+        }
+
+    });
+    let el;
+    if (displayComponent) {
+        el = (
+            <div className={classes.calendersContainer} style={{ display: displayComponent ? 'block' : 'none' }}>
+                <div className={classes.calenders}>
+                    <div className={classes.calender}>
+                        <div className={classes.monthContainer}>
+                            <img src={leftArrow} alt="" onClick={previousMonth} />
+                            <span>{monthsArr[monthLocation].month} 2022</span>
+                            {<img src={rightArrow} style={{display:style1}} alt="" onClick={nextMonth} />}
+                        </div>
+                        <div className={classes.daysContainer}>
+                            <div className={classes.dates}>
+                                <span>Su</span>
+                                <span>Mo</span>
+                                <span>Tu</span>
+                                <span>We</span>
+                                <span>Th</span>
+                                <span>Fr</span>
+                                <span>Sa</span>
+                            </div>
+                            <div className={classes.days}>
+                                {
+                                    dates.map((day, index) => {
+                                        const actualDay = day + 1;
+                                        if (index === 0) {
+                                            return <span key= {index} style={{ gridColumnStart: monthsArr[monthLocation].gridStartLocation }} onClick={() => dayClickHandler1(actualDay)}>{actualDay}</span>;
+                                        }
+                                        return <span key= {index} onClick={() => dayClickHandler1(actualDay)}>{actualDay}</span>
+                                    })
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                      <div className={classes.calender} style={{display:style2}}>
+                    <div className={classes.monthContainer + ' ' + classes.secondMonthContainer}>
+
+                        <span>{monthsArr[monthLocation + 1].month} 2022</span>
+                        <img src={rightArrow} alt="" onClick={nextMonth} />
+                    </div>
+                    <div className={classes.daysContainer}>
+                        <div className={classes.dates}>
+                            <span>Su</span>
+                            <span>Mo</span>
+                            <span>Tu</span>
+                            <span>We</span>
+                            <span>Th</span>
+                            <span>Fr</span>
+                            <span>Sa</span>
+                        </div>
+                        <div className={classes.days}>
+                            {
+                                dates2.map((day, index) => {
+                                    const actualDay = day + 1;
+                                    if (index === 0) {
+                                        return <span key={index} style={{ gridColumnStart: monthsArr[monthLocation + 1].gridStartLocation }} onClick={() => dayClickHandler2(actualDay)}>1</span>;
+                                    }
+                                    return <span key={index} onClick={() => dayClickHandler2(actualDay)}>{actualDay}</span>
+                                })
+                            }
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        )
+    } else {
+        el = (
+            <div className={classes.flexibleContainer}>
+                <div className={classes.weekendContainer}>
+                    <p>Stay for a <span style={{ fontWeight: 'bold' }}>weekend</span></p>
+                    <div className={classes.weekendBtns}>
+                        <button>Weekend</button>
+                        <button>Week</button>
+                        <button>Month</button>
+                    </div>
+                </div>
+                <p className={classes.weekendText}>Go in <span style={{ fontWeight: 'bold', color: 'black' }}>January</span></p>
+                <div className={classes.monthsBtnContainer}>
+                    <p>2022</p>
+                    <div className={classes.monthBtns}>
+                        <button>January</button>
+                        <button>February</button>
+                        <button>March</button>
+                        <button>April</button>
+                        <button>May</button>
+                        <button>June</button>
+                        <button>July</button>
+                        <button>August</button>
+                        <button>September</button>
+                        <button>October</button>
+                        <button>November</button>
+                        <button>December</button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
     return (
         <div className={classes.searchContainer}>
             <div className={classes.cityContainer} onClick={displayList}>
@@ -112,99 +320,33 @@ const Search = () => {
                     <p onClick={selectedCity}>Manama</p>
                 </div>
             </div>
-            <div className={classes.checkInContainer}>
-                <p>CHECK IN</p>
-                <p>Add dates</p>
-                <div className={classes.checkInDropdown}>
-                    <div className={classes.calenderContainer}>
-                        <div className={classes.calenderSelection}>
-                            <button>Calender</button>
-                            <button>Flexible</button>
-                        </div>
-                        <div className={classes.calenders}>
-                            <div className={classes.calender}>
-                                <div className={classes.monthContainer}>
-                                    <img src={leftArrow} alt="" onClick={previousMonth} />
-                                    <span>{monthsArr[monthLocation].month} 2022</span>
-                                    <img src={rightArrow} alt="" onClick={nextMonth} />
-                                </div>
-                                <div className={classes.daysContainer}>
-                                    <div className={classes.dates}>
-                                        <span>Su</span>
-                                        <span>Mo</span>
-                                        <span>Tu</span>
-                                        <span>We</span>
-                                        <span>Th</span>
-                                        <span>Fr</span>
-                                        <span>Sa</span>
-                                    </div>
-                                    <div className={classes.days}>
-                                        {
-                                            dates.map((day, index) => {
-                                                //    console.log(index);
-                                                const actualDay = day + 1;
-                                                if (index === 0) {
-                                                    return <span style={{ gridColumnStart: monthsArr[monthLocation].gridStartLocation }}>1</span>;
-                                                }
-                                                return <span onClick={() => checkInHandler(actualDay)}>{actualDay}</span>
-                                            })
-                                        }
-                                    </div>
-                                </div>
-
+            <div className={classes.datesContainer} onClick={displayDropdownHandler} data-view-tag="parent">
+                <p data-view-tag="parent">DATES</p>
+                <p data-view-tag="parent">{date}</p>
+                <div className={classes.datesDropdown} style={{ display: displayDropdown ? 'block' : 'none' }}>
+                    {
+                        <div className={classes.calenderContainer}>
+                            <div className={classes.calenderSelection} onClick={toggleComponentHandler}>
+                                <button style={{ color: color, backgroundColor: backgroundColor }}>Calender</button>
+                                <button style={{ color: color2, backgroundColor: backgroundColor2 }}>Flexible</button>
                             </div>
-                            <div className={classes.calender}>
-                                <div className={classes.monthContainer}>
-                                    <img src={leftArrow} alt="" />
-                                    <span>February 2022</span>
-                                    <img src={rightArrow} alt="" />
-                                </div>
-                                <div className={classes.daysContainer}>
-                                    <div className={classes.dates}>
-                                        <span>Su</span>
-                                        <span>Mo</span>
-                                        <span>Tu</span>
-                                        <span>We</span>
-                                        <span>Th</span>
-                                        <span>Fr</span>
-                                        <span>Sa</span>
-                                    </div>
-                                    <div className={classes.days}>
-                                        {
-                                            test1.map(day => <span>{day + 1}</span>)
-                                            /*    dates.map((day, index) => {
-                                                   //    console.log(index);
-                                                   const actualDay = day + 1;
-                                                   if (index === 0) {
-                                                       return <span style={{ gridColumnStart: monthsArr[monthLocation].gridStartLocation }}>1</span>;
-                                                   }
-                                                   return <span onClick={() => checkInHandler(actualDay)}>{actualDay}</span>
-                                               }) */
-                                        }
-                                    </div>
-                                </div>
-
+                            {el}
+                            <div className={classes.submitDatesContainer}>
+                                <button onClick={clearHandler}>Clear</button>
+                                <button data-view-tag="apply" >Apply dates</button>
                             </div>
                         </div>
-
-                        <div className={classes.subnitDatesContainer}>
-                            <button>Clear</button>
-                            <button>Apply dates</button>
-                        </div>
-                    </div>
+                    }
+                    <img src={close} className={classes.closePopUp} alt="" data-view-tag="close" />
                 </div>
-            </div>
-            <div className={classes.checkOutContainer}>
-                <p>CHECK OUT</p>
-                <p>Add dates</p>
             </div>
             <div className={classes.guestsContainer}>
                 <p>GUESTS</p>
                 <div className={classes.guestNumbers}>
-                    <span>Add guest</span>
+                    <span>{guestTile}</span>
                     <div className={classes.guestBtns}>
-                        <button>-</button>
-                        <button>+</button>
+                        <button onClick={guestDecHandler}>-</button>
+                        <button onClick={guestIncHandler}>+</button>
                     </div>
                 </div>
             </div>

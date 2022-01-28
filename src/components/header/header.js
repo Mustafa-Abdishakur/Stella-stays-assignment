@@ -4,7 +4,6 @@ import logo2 from '../../img/logo/Vector-1.png';
 import classes from './header.module.css';
 import profileIcon from '../../img/profile-icon.png';
 import arrow from '../../img/arrowDown.png';
-import backgroundShadow from '../../img/background-shadow.png';
 import img1 from '../../img/img1.png';
 import img2 from '../../img/img2.png';
 import img3 from '../../img/img3.png';
@@ -34,12 +33,11 @@ const images = {
 }
 const Header = () => {
 
-    let [imageNumber, setImageNumber] = useState(1);
-    let [imageUrl, setImageUrl] = useState(img1);
-    let [imageText, setImageText] = useState('');
-    // let[btnColor, setBtnColor] = useState('rgb(206, 206, 206)');
-    let[hightlightColor, setHighlightColor] = useState(1);
-
+    const [imageNumber, setImageNumber] = useState(1);
+    const [imageUrl, setImageUrl] = useState(img1);
+    const [imageText, setImageText] = useState('');
+    const [hightlightColor, setHighlightColor] = useState(1);
+    const [style, setStyle] = useState('block');
     useInterval(() => {
         if (imageNumber === 5) {
             setImageNumber(1);
@@ -48,20 +46,17 @@ const Header = () => {
         }
     }, 5000);
 
-    // let style;
     useEffect(() => {
         let img;
         switch (imageNumber) {
             case 1:
                 img = imageInfo(1);
-                // style = { backgroundImage: `url(${img1})` };
                 setImageUrl(img1);
                 setImageText(img.description);
                 setHighlightColor(1);
                 break;
             case 2:
                 img = imageInfo(2);
-                // style = { backgroundImage: `url(${img2})` };
                 setImageUrl(img2);
                 setImageText(img.description);
                 setHighlightColor(2);
@@ -69,7 +64,6 @@ const Header = () => {
                 break;
             case 3:
                 img = imageInfo(3);
-                // style = { backgroundImage: `url(${img3})` };
                 setImageUrl(img3);
                 setImageText(img.description);
                 setHighlightColor(3);
@@ -77,25 +71,36 @@ const Header = () => {
                 break;
             case 4:
                 img = imageInfo(4);
-                // style = { backgroundImage: `url(${img4})` };
                 setImageUrl(img4);
                 setImageText(img.description);
                 setHighlightColor(4);
                 break;
             case 5:
                 img = imageInfo(5);
-                // style = { backgroundImage: `url(${img5})` };
                 setImageUrl(img5);
                 setImageText(img.description);
                 setHighlightColor(5);
                 break;
             default:
-                // style = { backgroundImage: `url(${img1})` };
                 setImageText('Loreum text');
                 break;
         }
     }, [imageNumber])
+    window.addEventListener('resize', (e) => {
+        if (e.target.innerWidth <= 550) {
+            if (style === 'block') {
+                setStyle('none');
+            }
+        } else if (e.target.innerWidth > 550) {
+            if (style === 'none') {
+                setStyle('block');
+            }
+        }
 
+    });
+    const moveToBottom = (e) => {
+        e.target.scrollBottom -= 30;
+    }
     return (
         <header style={{ backgroundImage: `url(${imageUrl})` }}>
             <nav>
@@ -104,10 +109,10 @@ const Header = () => {
                     <img src={logo2} alt="" />
                 </div>
                 <div className={classes.navBtns}>
-                    <button>Help Centre</button>
-                    <button className={classes.contactBtn}>Contact</button>
+                    <a href="#" style={{ display: style }}>Help Centre</a>
+                    <a  href="#footer" className={classes.contactBtn} style={{ display: style }} onClick={moveToBottom}>Contact</a>
                     <img src={profileIcon} className={classes.profileIcon} alt="" />
-                    <img src={arrow} className={classes.arrow} alt="" />
+                    <img src={arrow} className={classes.arrow} style={{ display: style }} alt="" />
                 </div>
             </nav>
             <div className={classes.titleContainer}>
@@ -117,11 +122,11 @@ const Header = () => {
             <div className={classes.dotsContainer}>
                 <p className={classes.imageText}>{imageText}</p>
                 <div className={classes.dots}>
-                    <button className={classes.btn_1} data-number="1" onClick={print} style={{backgroundColor:`${hightlightColor === 1 ? '#fff' : 'rgb(206, 206, 206)'}`}}></button>
-                    <button className={classes.btn_2} style={{backgroundColor:`${hightlightColor === 2 ? '#fff' : 'rgb(206, 206, 206)'}`}}></button>
-                    <button className={classes.btn_3} style={{backgroundColor:`${hightlightColor === 3 ? '#fff' : 'rgb(206, 206, 206)'}`}}></button>
-                    <button className={classes.btn_4} style={{backgroundColor:`${hightlightColor === 4 ? '#fff' : 'rgb(206, 206, 206)'}`}}></button>
-                    <button className={classes.btn_5} style={{backgroundColor:`${hightlightColor === 5 ? '#fff' : 'rgb(206, 206, 206)'}`}}></button>
+                    <button className={classes.btn_1} data-number="1" onClick={print} style={{ backgroundColor: `${hightlightColor === 1 ? '#fff' : 'rgb(206, 206, 206)'}` }}></button>
+                    <button className={classes.btn_2} style={{ backgroundColor: `${hightlightColor === 2 ? '#fff' : 'rgb(206, 206, 206)'}` }}></button>
+                    <button className={classes.btn_3} style={{ backgroundColor: `${hightlightColor === 3 ? '#fff' : 'rgb(206, 206, 206)'}` }}></button>
+                    <button className={classes.btn_4} style={{ backgroundColor: `${hightlightColor === 4 ? '#fff' : 'rgb(206, 206, 206)'}` }}></button>
+                    <button className={classes.btn_5} style={{ backgroundColor: `${hightlightColor === 5 ? '#fff' : 'rgb(206, 206, 206)'}` }}></button>
                 </div>
             </div>
         </header>
